@@ -1,0 +1,7 @@
+name: MeteorEssentials
+version: ${version}
+main: meteordevelopment.meteoressentials.MeteorEssentials
+api-version: 1.19
+
+depend:
+  - PlaceholderAPI

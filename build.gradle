@@ -1,0 +1,26 @@
+subprojects {
+    apply plugin: "java"
+
+    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_17
+    group = "meteordevelopment"
+
+    repositories {
+        mavenCentral()
+        maven {
+            name = "papermc"
+            url = "https://papermc.io/repo/repository/maven-public/"
+        }
+    }
+
+    dependencies {
+        compileOnly "io.papermc.paper:paper-api:1.19.2-R0.1-SNAPSHOT"
+    }
+
+    processResources {
+        duplicatesStrategy = DuplicatesStrategy.WARN
+
+        filesMatching("plugin.yml") {
+            expand "version": project.version
+        }
+    }
+}

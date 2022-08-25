@@ -1,0 +1,16 @@
+prefix: "&7[&cMPVP&7]&r "
+
+join_message: "&a%player_name% &7joined"
+leave_message: "&c%player_name% &7left"
+
+min_crystal_age: 2
+
+disabled_commands:
+  - "/icanhasbukkit"
+  - "/plugins"
+  - "/pl"
+  - "?"
+  - "/me"
+
+teleport_commands:
+  spawn: "world, %spawn%"

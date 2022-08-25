@@ -1,0 +1,29 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "7.0.0"
+}
+
+version = "0.1.0"
+
+repositories {
+    maven {
+        name = "PlaceholderApi"
+        url = "https://repo.extendedclip.com/content/repositories/placeholderapi/"
+    }
+    maven {
+        name = "JitPack"
+        url = "https://jitpack.io/"
+    }
+}
+
+dependencies {
+    compileOnly "me.clip:placeholderapi:2.11.2"
+
+    implementation 'org.reflections:reflections:0.10.2'
+    implementation "com.github.Querz:NBT:5.5"
+}
+
+shadowJar {
+    classifier = ""
+}
+
+build.dependsOn shadowJar
