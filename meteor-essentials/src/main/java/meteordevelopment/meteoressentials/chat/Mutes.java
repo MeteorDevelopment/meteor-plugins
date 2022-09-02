@@ -1,16 +1,16 @@
 package meteordevelopment.meteoressentials.chat;
 
 import meteordevelopment.meteoressentials.MeteorEssentials;
-import net.querz.nbt.io.NBTUtil;
-import net.querz.nbt.tag.CompoundTag;
-import net.querz.nbt.tag.ListTag;
-import net.querz.nbt.tag.StringTag;
-import net.querz.nbt.tag.Tag;
+import meteordevelopment.nbt.NBT;
+import meteordevelopment.nbt.NbtFormatException;
+import meteordevelopment.nbt.tags.CompoundTag;
+import meteordevelopment.nbt.tags.ListTag;
+import meteordevelopment.nbt.tags.StringTag;
+import meteordevelopment.nbt.tags.TagId;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -25,8 +25,8 @@ public class Mutes {
 
         if (file.exists()) {
             try {
-                fromTag((CompoundTag) NBTUtil.read(file).getTag());
-            } catch (IOException e) {
+                fromTag(NBT.read(file, true).tag);
+            } catch (NbtFormatException e) {
                 e.printStackTrace();
             }
         }
@@ -34,13 +34,7 @@ public class Mutes {
 
     public static void save() {
         File file = new File(MeteorEssentials.INSTANCE.getDataFolder(), "mutes.nbt");
-        file.getParentFile().mkdirs();
-
-        try {
-            NBTUtil.write(toTag(), file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NBT.write(toTag(), file, true);
     }
 
     public static boolean addMute(OfflinePlayer player) {
@@ -66,7 +60,7 @@ public class Mutes {
     private static CompoundTag toTag() {
         CompoundTag tag = new CompoundTag();
 
-        ListTag<StringTag> list = new ListTag<>(StringTag.class);
+        ListTag<StringTag> list = new ListTag<>(TagId.String);
 
         for (UUID player : MUTES) list.add(new StringTag(player.toString()));
 
@@ -76,8 +70,8 @@ public class Mutes {
     }
 
     private static void fromTag(CompoundTag tag) {
-        for (Tag<?> t : tag.getListTag("mutes")) {
-            MUTES.add(UUID.fromString(((StringTag) t).getValue()));
+        for (StringTag t : tag.getList("mutes", StringTag.class)) {
+            MUTES.add(UUID.fromString(t.value));
         }
     }
 }

@@ -1,15 +1,15 @@
 package meteordevelopment.meteoressentials.chat;
 
 import meteordevelopment.meteoressentials.MeteorEssentials;
-import net.querz.nbt.io.NBTUtil;
-import net.querz.nbt.tag.CompoundTag;
-import net.querz.nbt.tag.ListTag;
-import net.querz.nbt.tag.StringTag;
-import net.querz.nbt.tag.Tag;
+import meteordevelopment.nbt.NBT;
+import meteordevelopment.nbt.NbtFormatException;
+import meteordevelopment.nbt.tags.CompoundTag;
+import meteordevelopment.nbt.tags.ListTag;
+import meteordevelopment.nbt.tags.StringTag;
+import meteordevelopment.nbt.tags.TagId;
 import org.bukkit.entity.Player;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 public class Ignores {
@@ -23,8 +23,8 @@ public class Ignores {
 
         if (file.exists()) {
             try {
-                fromTag((CompoundTag) NBTUtil.read(file).getTag());
-            } catch (IOException e) {
+                fromTag(NBT.read(file, true).tag);
+            } catch (NbtFormatException e) {
                 e.printStackTrace();
             }
         }
@@ -32,13 +32,7 @@ public class Ignores {
 
     public static void save() {
         File file = new File(MeteorEssentials.INSTANCE.getDataFolder(), "ignores.nbt");
-        file.getParentFile().mkdirs();
-
-        try {
-            NBTUtil.write(toTag(), file);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        NBT.write(toTag(), file, true);
     }
 
     public static boolean hasReceiverIgnored(Player sender, Player receiver) {
@@ -65,7 +59,7 @@ public class Ignores {
         CompoundTag tag = new CompoundTag();
 
         for (UUID player : IGNORES.keySet()) {
-            ListTag<StringTag> list = new ListTag<>(StringTag.class);
+            ListTag<StringTag> list = new ListTag<>(TagId.String);
 
             for (UUID ignored : IGNORES.get(player)) {
                 list.add(new StringTag(ignored.toString()));
@@ -82,8 +76,8 @@ public class Ignores {
             UUID player = UUID.fromString(key);
             List<UUID> list = new ArrayList<>(tag.keySet().size());
 
-            for (Tag<?> t : tag.getListTag(key)) {
-                list.add(UUID.fromString(((StringTag) t).getValue()));
+            for (StringTag t : tag.getList(key, StringTag.class)) {
+                list.add(UUID.fromString(t.value));
             }
 
             IGNORES.put(player, list);
