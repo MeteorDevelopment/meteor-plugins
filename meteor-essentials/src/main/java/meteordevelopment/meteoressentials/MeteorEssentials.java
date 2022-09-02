@@ -22,6 +22,7 @@ public class MeteorEssentials extends JavaPlugin {
         Ignores.load();
 
         Listeners.register(this, Listeners.class.getPackageName());
+        Commands.COMMANDS.clear();
         Commands.register(this, Commands.class.getPackageName());
         TeleportCommands.register();
 

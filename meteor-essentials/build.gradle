@@ -9,17 +9,13 @@ repositories {
         name = "PlaceholderApi"
         url = "https://repo.extendedclip.com/content/repositories/placeholderapi/"
     }
-    maven {
-        name = "Meteor Development"
-        url = "https://maven.meteordev.org/releases/"
-    }
 }
 
 dependencies {
     compileOnly "me.clip:placeholderapi:2.11.2"
 
-    implementation 'org.reflections:reflections:0.10.2'
-    implementation "meteordevelopment:NBT:0.1.2"
+    api "org.reflections:reflections:0.10.2"
+    api "meteordevelopment:NBT:0.1.2"
 }
 
 shadowJar {

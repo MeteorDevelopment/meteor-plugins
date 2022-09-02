@@ -1,0 +1,7 @@
+limits:
+  a:
+    perm: __default__
+    maxCount: 4
+    canHavePublic: false
+
+canInteractWithAllKits: admin

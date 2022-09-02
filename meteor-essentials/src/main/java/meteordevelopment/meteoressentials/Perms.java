@@ -12,13 +12,16 @@ public class Perms {
 
     public static Perm get(PluginBase plugin, String name) {
         String fullName = plugin.getName() + "." + name;
+        return get(name);
+    }
 
-        Perm perm = PERMS.get(fullName);
+    public static Perm get(String name) {
+        Perm perm = PERMS.get(name);
         if (perm == null) {
-            perm = new Perm(new Permission(fullName));
+            perm = new Perm(new Permission(name));
 
             Bukkit.getPluginManager().addPermission(perm.permission());
-            PERMS.put(fullName, perm);
+            PERMS.put(name, perm);
         }
 
         return perm;

@@ -1,0 +1,7 @@
+name: MeteorKits
+version: ${version}
+main: meteordevelopment.meteorkits.MeteorKits
+api-version: 1.19
+
+depend:
+  - MeteorEssentials
